@@ -9,6 +9,6 @@ java -jar WeatherClient-1.0.0-SNAPSHOT.jar {city name or coordinates}
 
 # Example :
 
-java -jar WeatherClient-1.0.0-SNAPSHOT.jar
+java -jar WeatherClient-1.0.0-SNAPSHOT.jar delhi
 
 [output] >>  41.742
