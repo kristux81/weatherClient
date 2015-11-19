@@ -14,9 +14,9 @@ public class WeatherAPI {
 	private static final Logger LOG = Logger.getLogger(WeatherAPI.class
 			.getName());
 
-	public static Weather getWeatherByCity(String city) {
+	public static Weather getWeatherByCity(String city, String accID) {
 
-		String url = Request.getRequestByName(city);
+		String url = Request.getRequestByName(city, accID);
 
 		Object response = null;
 		try {
@@ -33,9 +33,9 @@ public class WeatherAPI {
 	}
 
 	public static Weather getWeatherByCoordinates(String latitude,
-			String longitude) {
+			String longitude, String accID) {
 
-		String url = Request.getRequestByLocation(latitude, longitude);
+		String url = Request.getRequestByLocation(latitude, longitude, accID);
 
 		Object response = null;
 		try {

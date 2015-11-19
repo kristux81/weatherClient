@@ -1,6 +1,9 @@
 package com.weather.client;
 
+import java.util.logging.Logger;
+
 import com.weather.client.api.WeatherAPI;
+import com.weather.client.commons.Utils;
 import com.weather.model.Weather;
 
 /**
@@ -9,6 +12,8 @@ import com.weather.model.Weather;
  */
 public class WeatherClient {
 
+	private static final Logger LOG = Logger.getLogger(WeatherClient.class.getName());
+			
 	/**
 	 * @param args
 	 *            City => delhi => ajmer,india Coord => lat,lon
@@ -18,12 +23,14 @@ public class WeatherClient {
 		Weather weather = null;
 
 		if (args.length < 1) {
-			System.err
-					.println("City name or coordinates required as argument. Coordinates must be comma seperated without spaces");
+			LOG.severe("City name or coordinates required as argument. Coordinates must be comma seperated without spaces");
 			System.exit(-1);
 		}
 
 		if (args.length == 1) {
+
+			String weatherApiAccountId = Utils.getPropertyFromFile(
+					WeatherClientConfig.clientPropertiesFile, "weather.api.account.id");
 
 			// may be these are coordinates but we do not know yet
 			if (args[0].indexOf(',') != -1) {
@@ -46,21 +53,23 @@ public class WeatherClient {
 					if (isCoordinate) {
 						// Weather data from Weather API by coordinates
 						weather = WeatherAPI.getWeatherByCoordinates(coord[0],
-								coord[1]);
+								coord[1], weatherApiAccountId);
 					} else {
 						// Weather data from Weather API by city name
-						weather = WeatherAPI.getWeatherByCity(args[0]);
+						weather = WeatherAPI.getWeatherByCity(args[0],
+								weatherApiAccountId);
 					}
 				} else {
-					System.err.println("unsupported input format");
+					LOG.severe("unsupported input format");
 					System.exit(-3);
 				}
 			} else {
 				// Weather data from Weather API by city name
-				weather = WeatherAPI.getWeatherByCity(args[0]);
+				weather = WeatherAPI.getWeatherByCity(args[0],
+						weatherApiAccountId);
 			}
 		} else {
-			System.err.println("unsupported argument list");
+			LOG.severe("unsupported argument list");
 			System.exit(-2);
 		}
 

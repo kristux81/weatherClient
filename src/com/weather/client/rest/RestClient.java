@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.weather.client.WeatherClientConfig;
+import com.weather.client.commons.Utils;
 
 /**
  * @author krvsingh
@@ -13,8 +14,31 @@ import com.weather.client.WeatherClientConfig;
  */
 public class RestClient {
 
+	public static boolean config = false;
+	public static int readTimeOut;
+	public static int connectTimeOut;
+
+	public static void init() {
+
+		if (!config) {
+
+			readTimeOut = Integer.parseInt(Utils.getPropertyFromFile(
+					WeatherClientConfig.clientPropertiesFile,
+					"client.read.timeout",
+					String.valueOf(WeatherClientConfig.readTimeOut)));
+
+			connectTimeOut = Integer.parseInt(Utils.getPropertyFromFile(
+					WeatherClientConfig.clientPropertiesFile,
+					"client.connect.timeout",
+					String.valueOf(WeatherClientConfig.connectTimeOut)));
+		}
+
+	}
+
 	public static Object request(String resourceUrl)
 			throws HttpResponseException {
+
+		init();
 
 		try {
 			HttpURLConnection connection = (HttpURLConnection) new URL(
@@ -25,12 +49,12 @@ public class RestClient {
 			// As real time as it may get !! : we do not want to cache responses
 			connection.setRequestProperty("pragma", "no-cache");
 
-			connection.setConnectTimeout(WeatherClientConfig.connectTimeOut);
+			connection.setConnectTimeout(connectTimeOut);
 
 			// parameter disabled since we do not know server response time yet.
 			// CAUTION : ideally it must be set
 			// may lead to application hang for some time
-			//connection.setReadTimeout(WeatherClientConfig.readTimeOut);
+			// connection.setReadTimeout(readTimeOut);
 
 			// Ok, send the request
 			connection.connect();

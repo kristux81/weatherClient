@@ -8,4 +8,5 @@ public interface RequestUrlParam {
 	String modeXml = "mode=xml";
 	String unitMetric = "units=metric" ;
 	String urlBind = "&" ;
+	String appid = "APPID=";
 }

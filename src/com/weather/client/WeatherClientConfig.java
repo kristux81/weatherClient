@@ -7,6 +7,11 @@ package com.weather.client;
 public interface WeatherClientConfig {
 
 	/**
+	 * External properties file : must be provided in CLASSPATH
+	 */
+	String clientPropertiesFile = "client.properties";
+	
+	/**
 	 * Our weather API
 	 */
 	String weatherApi = "http://api.openweathermap.org/data/2.5/weather?";
