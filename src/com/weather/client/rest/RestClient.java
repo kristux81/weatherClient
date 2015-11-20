@@ -31,6 +31,8 @@ public class RestClient {
 					WeatherClientConfig.clientPropertiesFile,
 					"client.connect.timeout",
 					String.valueOf(WeatherClientConfig.connectTimeOut)));
+			
+		   config = true ;
 		}
 
 	}
